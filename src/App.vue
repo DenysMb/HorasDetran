@@ -1,8 +1,21 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Login</router-link> |
-      <router-link to="/home">Home</router-link>
+      <vs-breadcrumb
+        color="#000"
+        :items="
+           [
+             {
+               title: 'Entrar',
+               url: '/'
+             },
+             {
+               title: 'Início',
+               url: '/home',
+               active: true
+             }
+           ]"
+        ></vs-breadcrumb>
     </div>
     <router-view/>
   </div>
@@ -10,7 +23,7 @@
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
