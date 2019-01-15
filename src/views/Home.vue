@@ -10,8 +10,7 @@
       >
         <CardAula
           title="Legislação"
-          btnColor="#c69142"
-          textColor="#c69142"
+          color="#c69142"
           :horasPagas="6"
           :horasTotais="18"
         />
@@ -25,8 +24,7 @@
       >
         <CardAula
           title="Direção defensiva"
-          btnColor="#3a216a"
-          textColor="#3a216a"
+          color="#3a216a"
           :horasPagas="9"
           :horasTotais="16"
         />
@@ -42,8 +40,7 @@
       >
         <CardAula
           title="Mecânica básica"
-          btnColor="#5e604a"
-          textColor="#5e604a"
+          color="#5e604a"
           :horasPagas="3"
           :horasTotais="4"
         />
@@ -57,8 +54,7 @@
       >
         <CardAula
           title="Primeiros socorros"
-          btnColor="#bd2a2a"
-          textColor="#bd2a2a"
+          color="#bd2a2a"
           :horasPagas="0"
           :horasTotais="4"
         />
@@ -72,8 +68,7 @@
       >
         <CardAula
           title="Meio ambiente"
-          btnColor="#4e9f2d"
-          textColor="#4e9f2d"
+          color="#4e9f2d"
           :horasPagas="1"
           :horasTotais="4"
         />
