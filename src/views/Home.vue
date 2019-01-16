@@ -20,7 +20,7 @@
     </vs-row>
   </div>
   <div v-else>
-    {{$vs.loading()}}
+    {{$vs.loading({color:'#000'})}}
   </div>
 </template>
 
