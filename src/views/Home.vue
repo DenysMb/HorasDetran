@@ -7,9 +7,10 @@
         vs-align="center"
         :vs-w="disciplina.info.tamanho"
         class="column"
-        v-for="disciplina in disciplinas"
+        v-for="(disciplina, chave) in disciplinas"
       >
         <CardAula
+          :chave="chave"
           :title="disciplina.info.label"
           :color="disciplina.info.cor"
           :horasPagas="disciplina.horasPagas"
@@ -19,7 +20,7 @@
     </vs-row>
   </div>
   <div v-else>
-    Carregando...
+    {{$vs.loading()}}
   </div>
 </template>
 
@@ -32,6 +33,9 @@ export default {
   components: {
     CardAula
   },
+  firebase: {
+    alunos: db.ref("alunos")
+  },
   data() {
     return {
       disciplinas: [],
@@ -39,12 +43,15 @@ export default {
     };
   },
   created() {
-    this.$bind("disciplinas", db.ref(firebase.auth().currentUser.uid)).then(
-      res => {
-        this.res === res;
-        this.ready = true;
-      }
-    );
+    if (firebase.auth().currentUser.uid) {
+      this.$firebaseRefs.alunos
+        .child(firebase.auth().currentUser.uid)
+        .on("value", res => {
+          this.disciplinas = res.val();
+          this.$vs.loading.close();
+          this.ready = true;
+        });
+    }
   }
 };
 </script>

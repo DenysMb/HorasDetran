@@ -56,15 +56,22 @@
 </template>
 
 <script>
+import { db } from "../firebase.js";
+import firebase from "firebase";
 export default {
   props: {
+    chave: String,
     title: String,
     horasPagas: { default: 0, type: Number },
     horasTotais: { default: 0, type: Number },
     color: { default: "primary", type: String }
   },
+  firebase: {
+    alunos: db.ref("alunos")
+  },
   data() {
     return {
+      disciplinas: [],
       time: "",
       date: "",
       open: false,
@@ -80,8 +87,32 @@ export default {
       });
     },
     save() {
-      this.open = false;
-      this.acceptAlert();
+      let disciplina = db.ref(
+        "alunos/" + firebase.auth().currentUser.uid + "/" + this.chave
+      );
+
+      disciplina
+        .child("aulas")
+        .push({
+          data: this.date,
+          hora: this.time
+        })
+        .then(() =>
+          disciplina.child("aulas").on("value", res => {
+            disciplina.update({ horasPagas: Object.keys(res.val()).length });
+            this.open = false;
+            this.acceptAlert();
+          })
+        );
+    }
+  },
+  created() {
+    if (firebase.auth().currentUser.uid) {
+      this.$firebaseRefs.alunos
+        .child(firebase.auth().currentUser.uid)
+        .on("value", res => {
+          this.disciplinas = res.val();
+        });
     }
   },
   updated() {
@@ -91,7 +122,8 @@ export default {
       )[0].style.color = this.color;
       document.getElementsByClassName("con-title-after")[0].style[
         "font-family"
-      ] = "'Avenir', Helvetica, Arial, sans-serif";
+      ] =
+        "'Avenir', Helvetica, Arial, sans-serif";
     }
   }
 };
