@@ -8,6 +8,7 @@
         :vs-w="disciplina.info.tamanho"
         class="column"
         v-for="(disciplina, chave) in disciplinas"
+        :key="chave"
       >
         <CardAula
           :chave="chave"
