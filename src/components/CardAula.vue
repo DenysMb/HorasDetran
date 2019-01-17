@@ -18,7 +18,7 @@
     </div>
     <div slot="footer">
       <vs-row vs-justify="flex-end">
-        <vs-button :color="color" icon="access_time"></vs-button>
+        <vs-button :color="color" icon="access_time" @click="openCalendar = true"></vs-button>
         <vs-button
           color="#5b5b5b"
           icon="add"
@@ -52,6 +52,16 @@
         >
       </div>
     </vs-prompt>
+
+    <vs-prompt
+      @vs-cancel="openCalendar = false"
+      :vs-active.sync="openCalendar"
+      :vs-color="color"
+      :vs-title="title"
+      :vsButtonsHidden="true"
+    >
+      <vue-event-calendar :events="events" :title="title" :color="color"></vue-event-calendar>
+    </vs-prompt>
   </vs-card>
 </template>
 
@@ -75,7 +85,18 @@ export default {
       time: "",
       date: "",
       open: false,
-      valueInput: ""
+      openCalendar: false,
+      events: [
+        {
+          date: "2019/01/12", // Required
+          title: "Foo" // Required
+        },
+        {
+          date: "2019/01/17",
+          title: "Bar",
+          desc: "description"
+        }
+      ]
     };
   },
   methods: {
@@ -125,6 +146,26 @@ export default {
       ] =
         "'Avenir', Helvetica, Arial, sans-serif";
     }
+    if (document.getElementsByClassName("events-wrapper")) {
+      document.getElementsByClassName(
+        "events-wrapper"
+      )[0].style.backgroundColor = this.color;
+    }
+    if (document.getElementsByClassName("is-today")) {
+      document.getElementsByClassName(
+        "is-today"
+      )[0].style.backgroundColor = this.color;
+    }
+    if (document.getElementsByClassName("is-event")) {
+      [...document.getElementsByClassName("is-event")].map(
+        el => (el.style.borderColor = this.color)
+      );
+    }
+    if (document.getElementsByClassName("event")) {
+      [...document.getElementsByClassName("event")].map(
+        el => (el.style.color = this.color)
+      );
+    }
   }
 };
 </script>
@@ -133,5 +174,12 @@ export default {
 <style>
 .content-noti {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
+}
+.vs-dialog {
+  max-width: 1220px !important;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+}
+.date-num {
+  color: inherit !important;
 }
 </style>
