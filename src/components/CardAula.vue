@@ -13,7 +13,7 @@
         >Falta {{ horasTotais - horasPagas }}h -
         {{ Math.round((horasPagas * 100) / horasTotais) }}%</small
       >
-      <small :style="'color:' + color" v-else
+      <small :style="'color:' + color" v-if="horasTotais - horasPagas > 1"
         >Faltam {{ horasTotais - horasPagas }}h -
         {{ Math.round((horasPagas * 100) / horasTotais) }}%</small
       >
