@@ -11,7 +11,7 @@ import { db } from "./firebase.js";
 
 Vue.use(Vuesax);
 Vue.use(VueFire);
-Vue.use(vueEventCalendar, { locale: "pt-br" });
+Vue.use(vueEventCalendar, { locale: "pt-br", color: "rgba(0,0,0,.1)" });
 Vue.config.productionTip = false;
 
 new Vue({

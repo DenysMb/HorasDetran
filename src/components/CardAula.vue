@@ -85,18 +85,7 @@ export default {
       time: "",
       date: "",
       open: false,
-      openCalendar: false,
-      events: [
-        {
-          date: "2019/01/12", // Required
-          title: "Foo" // Required
-        },
-        {
-          date: "2019/01/17",
-          title: "Bar",
-          desc: "description"
-        }
-      ]
+      openCalendar: false
     };
   },
   methods: {
@@ -115,8 +104,8 @@ export default {
       disciplina
         .child("aulas")
         .push({
-          data: this.date,
-          hora: this.time
+          title: this.title + " - " + this.time,
+          date: this.date.replace(/-/g, "/")
         })
         .then(() =>
           disciplina.child("aulas").on("value", res => {
@@ -133,6 +122,13 @@ export default {
         .child(firebase.auth().currentUser.uid)
         .on("value", res => {
           this.disciplinas = res.val();
+        });
+      this.$firebaseRefs.alunos
+        .child(firebase.auth().currentUser.uid)
+        .child(this.chave)
+        .child("aulas")
+        .on("value", res => {
+          if (res.val()) this.events = Object.values(res.val());
         });
     }
   },
@@ -157,9 +153,9 @@ export default {
       )[0].style.backgroundColor = this.color;
     }
     if (document.getElementsByClassName("is-event")) {
-      [...document.getElementsByClassName("is-event")].map(
-        el => (el.style.borderColor = this.color)
-      );
+      [...document.getElementsByClassName("is-event")].map(el => {
+        el.style.borderColor = this.color;
+      });
     }
     if (document.getElementsByClassName("event")) {
       [...document.getElementsByClassName("event")].map(
