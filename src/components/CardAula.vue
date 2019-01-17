@@ -60,7 +60,17 @@
       :vs-title="title"
       :vsButtonsHidden="true"
     >
-      <vue-event-calendar :events="events" :title="title" :color="color"></vue-event-calendar>
+      <vue-event-calendar :events="events" :title="title" :color="color">
+        <template scope="props">
+        <div v-for="(event, index) in props.showEvents" class="event-item">
+          <div style="display: flex; align-items: center;">
+            <small style="color: #999; margin-right: 8px;">({{formatDate(event.date)}})</small>
+            <h3 style="flex: 1;">{{event.title}}</h3>
+            <vs-button @click="removeDate" :color="color" icon="delete"></vs-button>
+          </div>
+        </div>
+      </template>
+      </vue-event-calendar>
     </vs-prompt>
   </vs-card>
 </template>
@@ -68,6 +78,7 @@
 <script>
 import { db } from "../firebase.js";
 import firebase from "firebase";
+import moment from "moment";
 export default {
   props: {
     chave: String,
@@ -114,6 +125,13 @@ export default {
             this.acceptAlert();
           })
         );
+    },
+    removeDate() {
+      alert("Removendo...");
+    },
+    formatDate(date) {
+      moment.locale("pt-br");
+      return moment(date).format("ll");
     }
   },
   created() {
@@ -128,7 +146,10 @@ export default {
         .child(this.chave)
         .child("aulas")
         .on("value", res => {
-          if (res.val()) this.events = Object.values(res.val());
+          if (res.val())
+            this.events = Object.values(res.val()).sort(function(a, b) {
+              return new Date(a.date).getTime() - new Date(b.date).getTime();
+            });
         });
     }
   },
@@ -177,5 +198,8 @@ export default {
 }
 .date-num {
   color: inherit !important;
+}
+.event-item {
+  padding: 10px !important;
 }
 </style>
