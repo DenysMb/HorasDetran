@@ -1,25 +1,47 @@
 <template>
   <div id="app">
     <div id="nav">
-      <vs-breadcrumb
-        color="#000"
-        :items="
-           [
-             {
-               title: 'Entrar',
-               url: '/'
-             },
-             {
-               title: 'Início',
-               url: '/home',
-               active: true
-             }
-           ]"
-        ></vs-breadcrumb>
+      <vs-breadcrumb color="#000" align="center">
+        <li>
+          <router-link to="/" :class="setActive('login')">{{
+            home
+          }}</router-link>
+          <span class="vs-breadcrum--separator" v-if="!setActive('login')"
+            >/</span
+          >
+        </li>
+        <li v-if="setActive('home')">
+          <router-link to="/home" :class="setActive('home')"
+            >Início</router-link
+          >
+          <span class="vs-breadcrum--separator" v-if="!setActive('home')"
+            >/</span
+          >
+        </li>
+      </vs-breadcrumb>
     </div>
-    <router-view/>
+    <router-view />
   </div>
 </template>
+
+<script>
+import firebase from "firebase";
+export default {
+  data() {
+    return {
+      home: "Entrar"
+    };
+  },
+  methods: {
+    setActive(url) {
+      if (url === window.location.hash.replace("#/", "")) return "active";
+    }
+  },
+  updated() {
+    this.home = firebase.auth().currentUser.uid ? "Sair" : "Entrar";
+  }
+};
+</script>
 
 <style>
 #app {
@@ -29,16 +51,13 @@
   text-align: center;
   color: #2c3e50;
 }
-#nav {
-  padding: 30px;
-}
 
 #nav a {
   font-weight: bold;
   color: #2c3e50;
 }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
+.active {
+  font-weight: normal !important;
 }
 </style>

@@ -7,18 +7,28 @@
       <h3>{{ horasPagas }}h de {{ horasTotais }}h</h3>
       <div style="padding: 10px 0;">Última aula:</div>
       <small :style="'color:' + color" v-if="horasTotais - horasPagas === 0"
-        >Parabéns, você terminou essa disciplina!</small
+        >Parabéns, você terminou essa disciplina! - 100%</small
       >
       <small :style="'color:' + color" v-if="horasTotais - horasPagas === 1"
-        >Falta {{ horasTotais - horasPagas }}h</small
+        >Falta {{ horasTotais - horasPagas }}h -
+        {{ Math.round((horasPagas * 100) / horasTotais) }}%</small
       >
       <small :style="'color:' + color" v-else
-        >Faltam {{ horasTotais - horasPagas }}h</small
+        >Faltam {{ horasTotais - horasPagas }}h -
+        {{ Math.round((horasPagas * 100) / horasTotais) }}%</small
       >
+      <vs-progress
+        :percent="Math.round((horasPagas * 100) / horasTotais)"
+        :color="color"
+      ></vs-progress>
     </div>
     <div slot="footer">
       <vs-row vs-justify="flex-end">
-        <vs-button :color="color" icon="access_time" @click="openCalendar = true"></vs-button>
+        <vs-button
+          :color="color"
+          icon="access_time"
+          @click="openCalendar = true"
+        ></vs-button>
         <vs-button
           color="#5b5b5b"
           icon="add"
@@ -62,14 +72,20 @@
     >
       <vue-event-calendar :events="events" :title="title" :color="color">
         <template scope="props">
-        <div v-for="(event, index) in props.showEvents" class="event-item">
-          <div style="display: flex; align-items: center;">
-            <small style="color: #999; margin-right: 8px;">({{formatDate(event.date)}})</small>
-            <h3 style="flex: 1;">{{event.title}}</h3>
-            <vs-button @click="removeDate" :color="color" icon="delete"></vs-button>
+          <div v-for="(event, index) in props.showEvents" class="event-item">
+            <div style="display: flex; align-items: center;">
+              <small style="color: #999; margin-right: 8px;"
+                >({{ formatDate(event.date) }})</small
+              >
+              <h3 style="flex: 1;">{{ event.title }}</h3>
+              <vs-button
+                @click="removeDate(event.key)"
+                :color="color"
+                icon="delete"
+              ></vs-button>
+            </div>
           </div>
-        </div>
-      </template>
+        </template>
       </vue-event-calendar>
     </vs-prompt>
   </vs-card>
@@ -118,16 +134,32 @@ export default {
           title: this.title + " - " + this.time,
           date: this.date.replace(/-/g, "/")
         })
-        .then(() =>
+        .then(res => {
+          // disciplina.child("aulas/" + res.key).set({ key: res.key });
           disciplina.child("aulas").on("value", res => {
             disciplina.update({ horasPagas: Object.keys(res.val()).length });
             this.open = false;
             this.acceptAlert();
-          })
-        );
+          });
+        });
     },
-    removeDate() {
-      alert("Removendo...");
+    removeDate(key) {
+      let disciplina = db.ref(
+        "alunos/" + firebase.auth().currentUser.uid + "/" + this.chave
+      );
+
+      disciplina
+        .child("aulas")
+        .child(key)
+        .remove()
+        .then(() => {
+          disciplina.child("aulas").on("value", res => {
+            disciplina.update(
+              { horasPagas: Object.keys(res.val()).length } || 0
+            );
+            this.openCalendar = false;
+          });
+        });
     },
     formatDate(date) {
       moment.locale("pt-br");
@@ -146,10 +178,15 @@ export default {
         .child(this.chave)
         .child("aulas")
         .on("value", res => {
-          if (res.val())
-            this.events = Object.values(res.val()).sort(function(a, b) {
+          if (res.val()) {
+            let arr = [];
+            Object.keys(res.val()).map(key => {
+              arr.push(Object.assign(res.val()[key], { key }));
+            });
+            this.events = arr.sort(function(a, b) {
               return new Date(a.date).getTime() - new Date(b.date).getTime();
             });
+          }
         });
     }
   },
@@ -160,8 +197,7 @@ export default {
       )[0].style.color = this.color;
       document.getElementsByClassName("con-title-after")[0].style[
         "font-family"
-      ] =
-        "'Avenir', Helvetica, Arial, sans-serif";
+      ] = "'Avenir', Helvetica, Arial, sans-serif";
     }
     if (document.getElementsByClassName("events-wrapper")) {
       document.getElementsByClassName(

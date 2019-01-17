@@ -19,10 +19,18 @@
         />
       </vs-col>
     </vs-row>
+    <vs-row>
+      <vs-col style="padding: 0px 20px;">
+        <vs-progress
+          :percent="Math.round((horasPagas * 100) / horasTotais)"
+          color="#000"
+        ></vs-progress>
+        {{ horasPagas }}h de {{ horasTotais }}h -
+        {{ Math.round((horasPagas * 100) / horasTotais) }}%
+      </vs-col>
+    </vs-row>
   </div>
-  <div v-else>
-    {{$vs.loading({color:'#000'})}}
-  </div>
+  <div v-else>{{ $vs.loading({ color: "#000" }) }}</div>
 </template>
 
 <script>
@@ -40,7 +48,9 @@ export default {
   data() {
     return {
       disciplinas: [],
-      ready: false
+      ready: false,
+      horasPagas: 0,
+      horasTotais: 0
     };
   },
   created() {
@@ -48,6 +58,10 @@ export default {
       this.$firebaseRefs.alunos
         .child(firebase.auth().currentUser.uid)
         .on("value", res => {
+          Object.values(res.val()).map(obj => {
+            this.horasPagas += obj.horasPagas;
+            this.horasTotais += obj.horasTotais;
+          });
           this.disciplinas = res.val();
           this.$vs.loading.close();
           this.ready = true;
