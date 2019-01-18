@@ -1,26 +1,9 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <vs-breadcrumb color="#000" align="center">
-        <li>
-          <router-link to="/" :class="setActive('login')">{{
-            home
-          }}</router-link>
-          <span class="vs-breadcrum--separator" v-if="!setActive('login')"
-            >/</span
-          >
-        </li>
-        <li v-if="setActive('home')">
-          <router-link to="/home" :class="setActive('home')"
-            >Início</router-link
-          >
-          <span class="vs-breadcrum--separator" v-if="!setActive('home')"
-            >/</span
-          >
-        </li>
-      </vs-breadcrumb>
-    </div>
-    <router-view />
+      <div v-if="$autenticado" id="nav">
+        <a href="#" @click="logout" >Sair</a>
+      </div>
+      <router-view />
   </div>
 </template>
 
@@ -29,27 +12,41 @@ import firebase from "firebase";
 export default {
   data() {
     return {
-      home: "Entrar"
+      autenticado: firebase.auth().currentUser
     };
   },
   methods: {
-    setActive(url) {
-      if (url === window.location.hash.replace("#/", "")) return "active";
+    logout() {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.$router.replace("login");
+        });
     }
-  },
-  updated() {
-    this.home = firebase.auth().currentUser.uid ? "Sair" : "Entrar";
   }
 };
 </script>
 
 <style>
+html,
+body,
+#app {
+  height: 100%;
+}
+
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  display: flex;
+  flex-direction: column;
+}
+
+#nav {
+  padding-top: 20px;
 }
 
 #nav a {

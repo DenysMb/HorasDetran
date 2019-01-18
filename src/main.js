@@ -8,13 +8,21 @@ import "vuesax/dist/vuesax.css";
 import "material-icons/iconfont/material-icons.css";
 import "vue-event-calendar/dist/style.css";
 import { db } from "./firebase.js";
+import firebase from "firebase";
 
 Vue.use(Vuesax);
 Vue.use(VueFire);
 Vue.use(vueEventCalendar, { locale: "pt-br", color: "rgba(0,0,0,.1)" });
 Vue.config.productionTip = false;
 
-new Vue({
-  router,
-  render: h => h(App)
-}).$mount("#app");
+let app = "";
+
+firebase.auth().onAuthStateChanged(() => {
+  Vue.prototype.$autenticado = firebase.auth().currentUser;
+  if (!app) {
+    app = new Vue({
+      router,
+      render: h => h(App)
+    }).$mount("#app");
+  }
+});

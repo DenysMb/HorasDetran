@@ -108,6 +108,7 @@ export default {
   },
   data() {
     return {
+      events: [],
       disciplinas: [],
       time: "",
       date: "",
@@ -197,7 +198,8 @@ export default {
       )[0].style.color = this.color;
       document.getElementsByClassName("con-title-after")[0].style[
         "font-family"
-      ] = "'Avenir', Helvetica, Arial, sans-serif";
+      ] =
+        "'Avenir', Helvetica, Arial, sans-serif";
     }
     if (document.getElementsByClassName("events-wrapper")) {
       document.getElementsByClassName(

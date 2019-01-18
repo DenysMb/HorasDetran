@@ -1,5 +1,5 @@
 <template>
-  <vs-row>
+  <vs-row style="flex: 1;">
     <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="4" vs-offset="4">
       <vs-card>
       <div slot="header">
@@ -9,7 +9,7 @@
         <vs-input class="input fullWidth" placeholder="E-mail" color="dark" v-model="email" type="email" />
         <vs-input class="input fullWidth" placeholder="Senha" color="dark" v-model="password" type="password" />
         <vs-button class="button fullWidth" color="dark" type="filled" @click="login">Entrar</vs-button>
-        <small>Não tem cadastro? Clique aqui para se cadastrar!</small>
+        <small>Não tem cadastro? <router-link to="/sign-up">Clique aqui para se cadastrar!</router-link></small>
       </div>
     </vs-card>
     </vs-col>
