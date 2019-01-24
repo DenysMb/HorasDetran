@@ -69,6 +69,7 @@
       :vs-color="color"
       :vs-title="title"
       :vsButtonsHidden="true"
+      style="overflow-y: auto;"
     >
       <vue-event-calendar :events="events" :title="title" :color="color">
         <template scope="props">
@@ -232,6 +233,7 @@ export default {
 }
 .vs-dialog {
   max-width: 1220px !important;
+  max-height: 98% !important;
   font-family: "Avenir", Helvetica, Arial, sans-serif;
 }
 .date-num {
@@ -239,5 +241,10 @@ export default {
 }
 .event-item {
   padding: 10px !important;
+}
+@media only screen and (max-width: 600px) {
+  .vs-dialog {
+    overflow-y: auto !important;
+  }
 }
 </style>

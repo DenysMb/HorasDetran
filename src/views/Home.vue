@@ -6,6 +6,7 @@
         vs-justify="center"
         vs-align="center"
         :vs-w="disciplina.info.tamanho"
+        vs-sm="12"
         class="column"
         v-for="(disciplina, chave) in disciplinas"
         :key="chave"

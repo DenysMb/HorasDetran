@@ -1,6 +1,6 @@
 <template>
-  <vs-row style="flex: 1;">
-    <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="4" vs-offset="4">
+  <vs-row style="flex: 1; justify-content: center; align-items: center; display: flex; padding: 20px;">
+    <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="4" vs-sm="12">
       <vs-card>
       <div slot="header">
         <h3>Entrar</h3>
