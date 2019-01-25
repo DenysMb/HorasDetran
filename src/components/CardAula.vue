@@ -5,7 +5,9 @@
     </div>
     <div>
       <h3>{{ horasPagas }}h de {{ horasTotais }}h</h3>
-      <div style="padding: 10px 0;">Última aula:</div>
+      <div style="padding: 10px 0;">
+        <strong>Última aula:</strong> {{formatDate(ultimaAula) || 'Nunca'}}
+      </div>
       <small :style="'color:' + color" v-if="horasTotais - horasPagas === 0"
         >Parabéns, você terminou essa disciplina! - 100%</small
       >
@@ -102,6 +104,7 @@ export default {
     title: String,
     horasPagas: { default: 0, type: Number },
     horasTotais: { default: 0, type: Number },
+    ultimaAula: { default: 'Nunca', type: String },
     color: { default: "primary", type: String }
   },
   firebase: {
@@ -165,7 +168,11 @@ export default {
     },
     formatDate(date) {
       moment.locale("pt-br");
-      return moment(date).format("ll");
+      let momentDate = moment(date);
+      if(momentDate.isValid())
+        return momentDate.format("ll");
+      else
+        return false
     }
   },
   created() {

@@ -17,11 +17,18 @@
           :color="disciplina.info.cor"
           :horasPagas="disciplina.horasPagas"
           :horasTotais="disciplina.horasTotais"
+          :ultimaAula="disciplina.aulas && disciplina.aulas[Object.keys(disciplina.aulas)[Object.keys(disciplina.aulas).length-1]].date"
         />
       </vs-col>
     </vs-row>
-    <vs-row>
+    <vs-row style="margin-bottom: 20px;">
       <vs-col style="padding: 0px 20px;">
+        <vs-button
+          class="button"
+          color="black"
+          icon="school"
+          @click="openSimulado = true"
+        >Simulado Detran</vs-button>
         <vs-progress
           :percent="Math.round((horasPagas * 100) / horasTotais)"
           color="#000"
@@ -30,6 +37,14 @@
         {{ Math.round((horasPagas * 100) / horasTotais) }}%
       </vs-col>
     </vs-row>
+    <vs-prompt
+      @vs-cancel="openSimulado = false"
+      :vs-active.sync="openSimulado"
+      vs-title="Simlado Detran"
+      :vsButtonsHidden="true"
+    >
+      <iframe style="border: 0px; " src="http://simulado.detran.rj.gov.br/" width="100%" height="100%"></iframe>
+    </vs-prompt>
   </div>
   <div v-else>{{ $vs.loading({ color: "#000" }) }}</div>
 </template>
@@ -51,7 +66,8 @@ export default {
       disciplinas: [],
       ready: false,
       horasPagas: 0,
-      horasTotais: 0
+      horasTotais: 0,
+      openSimulado: false
     };
   },
   created() {
@@ -75,5 +91,21 @@ export default {
 <style>
 .column {
   padding: 20px;
+}
+.vs-dialog {
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+}
+.vs-dialog-text {
+  flex: 1;
+}
+@media only screen and (max-width: 600px) {
+  .vs-dialog {
+    height: 96%;
+  }
+  .button {
+    width: 100%;
+  }
 }
 </style>
