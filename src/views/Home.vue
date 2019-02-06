@@ -23,12 +23,6 @@
     </vs-row>
     <vs-row style="margin-bottom: 20px;">
       <vs-col style="padding: 0px 20px;">
-        <vs-button
-          class="button"
-          color="black"
-          icon="school"
-          @click="openSimulado = true"
-        >Simulado Detran</vs-button>
         <vs-progress
           :percent="Math.round((horasPagas * 100) / horasTotais)"
           color="#000"
@@ -37,14 +31,6 @@
         {{ Math.round((horasPagas * 100) / horasTotais) }}%
       </vs-col>
     </vs-row>
-    <vs-prompt
-      @vs-cancel="openSimulado = false"
-      :vs-active.sync="openSimulado"
-      vs-title="Simlado Detran"
-      :vsButtonsHidden="true"
-    >
-      <iframe style="border: 0px; " src="http://simulado.detran.rj.gov.br/" width="100%" height="100%"></iframe>
-    </vs-prompt>
   </div>
   <div v-else>{{ $vs.loading({ color: "#000" }) }}</div>
 </template>
