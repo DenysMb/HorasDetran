@@ -29,12 +29,6 @@
           icon="school"
           @click="openSimulado = true"
         >Simulado Detran</vs-button>
-        <vs-progress
-          :percent="Math.round((horasPagas * 100) / horasTotais)"
-          color="#000"
-        ></vs-progress>
-        {{ horasPagas }}h de {{ horasTotais }}h -
-        {{ Math.round((horasPagas * 100) / horasTotais) }}%
       </vs-col>
     </vs-row>
     <vs-prompt
