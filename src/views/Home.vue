@@ -17,24 +17,8 @@
           :color="disciplina.info.cor"
           :horasPagas="disciplina.horasPagas"
           :horasTotais="disciplina.horasTotais"
-          :ultimaAula="disciplina.aulas && disciplina.aulas[Object.keys(disciplina.aulas)[Object.keys(disciplina.aulas).length-1]].date"
+          :ultimaAula="disciplina.aulas && disciplina.aulas[Object.keys(disciplina.aulas)[Object.keys(disciplina.aulas).length-1]]"
         />
-      </vs-col>
-    </vs-row>
-    <vs-row style="margin-bottom: 20px;">
-      <vs-col style="padding: 0px 20px;">
-        <vs-button
-          class="button"
-          color="black"
-          icon="school"
-          @click="openSimulado = true"
-        >Simulado Detran</vs-button>
-        <vs-progress
-          :percent="Math.round((horasPagas * 100) / horasTotais)"
-          color="#000"
-        ></vs-progress>
-        {{ horasPagas }}h de {{ horasTotais }}h -
-        {{ Math.round((horasPagas * 100) / horasTotais) }}%
       </vs-col>
     </vs-row>
     <vs-prompt
@@ -66,8 +50,7 @@ export default {
       disciplinas: [],
       ready: false,
       horasPagas: 0,
-      horasTotais: 0,
-      openSimulado: false
+      horasTotais: 0
     };
   },
   created() {

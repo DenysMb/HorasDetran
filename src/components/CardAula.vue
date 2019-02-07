@@ -6,9 +6,9 @@
     <div>
       <h3>{{ horasPagas }}h de {{ horasTotais }}h</h3>
       <div style="padding: 10px 0;">
-        <strong>Última aula:</strong> {{formatDate(ultimaAula) || 'Nunca'}}
+        <strong>Última aula:</strong> {{`${formatDate(ultimaAula.date)} às ${ultimaAula.title.split('-')[1]}h` || 'Nunca'}}
       </div>
-      <small :style="'color:' + color" v-if="horasTotais - horasPagas === 0"
+      <small :style="'color:' + color" v-if="horasTotais - horasPagas <= 0"
         >Parabéns, você terminou essa disciplina! - 100%</small
       >
       <small :style="'color:' + color" v-if="horasTotais - horasPagas === 1"
