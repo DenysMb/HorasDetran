@@ -3,9 +3,9 @@
     <div slot="header">
       <h3 :style="'color:' + color">{{ title }}</h3>
     </div>
-    <div>
+    <div style="margin-bottom: 10px">
       <h3>{{ horasPagas }}h de {{ horasTotais }}h</h3>
-      <div style="padding: 10px 0;">
+      <div v-if="ultimaAula" style="padding: 10px 0;">
         <strong>Última aula:</strong> {{`${formatDate(ultimaAula.date)} às ${ultimaAula.title.split('-')[1]}h` || 'Nunca'}}
       </div>
       <small :style="'color:' + color" v-if="horasTotais - horasPagas <= 0"
@@ -102,10 +102,10 @@ export default {
   props: {
     chave: String,
     title: String,
+    ultimaAula: Object | Boolean,
     horasPagas: { default: 0, type: Number },
     horasTotais: { default: 0, type: Number },
-    ultimaAula: { default: 'Nunca', type: String },
-    color: { default: "primary", type: String }
+    color: {default: "primary", type: String},
   },
   firebase: {
     alunos: db.ref("alunos")
@@ -249,6 +249,11 @@ export default {
 .event-item {
   padding: 10px !important;
 }
+
+.vs-card--content {
+  margin-bottom: 0px !important;
+}
+
 @media only screen and (max-width: 600px) {
   .vs-dialog {
     overflow-y: auto !important;

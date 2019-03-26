@@ -82,6 +82,15 @@ export default {
                     label: "Primeiros socorros",
                     tamanho: 4
                   }
+                },
+                aulaPratica: {
+                  horasPagas: 0,
+                  horasTotais: 25,
+                  info: {
+                    cor: "rgb(2,136,209)",
+                    label: "Aula prática",
+                    tamanho: 12
+                  }
                 }
               })
               .then(() => this.$router.replace("home"));
