@@ -19,16 +19,16 @@
       </small
       >
       <div class="aulas" v-if="aulas">
-        <div class="aula" v-for="(aula, key) in aulas">
+        <div class="aula" v-for="(aula, key) in sortedAulas" :key="'aula-' + key">
           <div class="aula-title" :style="aula.complete && 'text-decoration-line:line-through;'">
             {{ formatDate(aula.date) }} - {{ aula.title }}
           </div>
-          <vs-button @click="checkOrUncheck(key, aula.complete)"
+          <vs-button @click="checkOrUncheck(aula.key, aula.complete)"
             class="aula-button"
             color="#616161"
             type="filled"
             :icon="aula.complete ? 'check_box' : 'check_box_outline_blank'"></vs-button>
-          <vs-button @click="removeDate(key)"
+          <vs-button @click="removeDate(aula.key)"
             class="aula-button"
             color="#D32F2F"
             type="filled"
@@ -79,6 +79,7 @@
   import {db} from "../firebase.js";
   import firebase from "firebase";
   import moment from "moment";
+  import sortBy from "lodash.sortby";
 
   export default {
     props: {
@@ -102,6 +103,12 @@
         open: false,
         openCalendar: false
       };
+    },
+    computed: {
+      sortedAulas() {
+        Object.keys(this.aulas).map(key => (this.aulas[key].key = key))
+        return sortBy(this.aulas, 'date');
+      }
     },
     methods: {
       acceptAlert() {
@@ -133,7 +140,7 @@
           "alunos/" + firebase.auth().currentUser.uid + "/" + this.chave
         );
 
-        disciplina
+        key && disciplina
           .child("aulas")
           .child(key)
           .remove();
@@ -143,7 +150,7 @@
           "alunos/" + firebase.auth().currentUser.uid + "/" + this.chave
         );
 
-        disciplina
+        key && disciplina
           .child("aulas")
           .child(key)
           .update({complete: !complete})
@@ -166,6 +173,7 @@
       }
     },
     created() {
+      Object.keys(this.aulas).map(key => (this.aulas[key].key = key))
       if (firebase.auth().currentUser.uid) {
         this.$firebaseRefs.alunos
           .child(firebase.auth().currentUser.uid)
@@ -188,7 +196,7 @@
             }
           });
       }
-    }
+    },
   };
 </script>
 

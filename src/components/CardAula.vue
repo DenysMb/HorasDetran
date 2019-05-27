@@ -200,7 +200,9 @@ export default {
     }
   },
   updated() {
-    if (document.getElementsByClassName("con-title-after")) {
+    if (document.getElementsByClassName("con-title-after") && document.getElementsByClassName(
+        "con-title-after"
+      )[0]) {
       document.getElementsByClassName(
         "con-title-after"
       )[0].style.color = this.color;
@@ -209,22 +211,22 @@ export default {
       ] =
         "'Avenir', Helvetica, Arial, sans-serif";
     }
-    if (document.getElementsByClassName("events-wrapper")) {
+    if (document.getElementsByClassName("events-wrapper") && document.getElementsByClassName("events-wrapper")[0]) {
       document.getElementsByClassName(
         "events-wrapper"
       )[0].style.backgroundColor = this.color;
     }
-    if (document.getElementsByClassName("is-today")) {
+    if (document.getElementsByClassName("is-today") && document.getElementsByClassName("is-today")[0]) {
       document.getElementsByClassName(
         "is-today"
       )[0].style.backgroundColor = this.color;
     }
-    if (document.getElementsByClassName("is-event")) {
+    if (document.getElementsByClassName("is-event") && document.getElementsByClassName("is-event")[0]) {
       [...document.getElementsByClassName("is-event")].map(el => {
         el.style.borderColor = this.color;
       });
     }
-    if (document.getElementsByClassName("event")) {
+    if (document.getElementsByClassName("event") && document.getElementsByClassName("event")[0]) {
       [...document.getElementsByClassName("event")].map(
         el => (el.style.color = this.color)
       );

@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "firebase": "^5.7.3",
+    "lodash.sortby": "^4.7.0",
     "material-icons": "^0.3.0",
     "moment": "^2.23.0",
     "vue": "^2.5.21",
