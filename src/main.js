@@ -26,3 +26,4 @@ firebase.auth().onAuthStateChanged(() => {
     }).$mount("#app");
   }
 });
+// Pull request
