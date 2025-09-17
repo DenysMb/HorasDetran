@@ -1,29 +1,12 @@
-# HorasDetran
+# Horas Detran
+### A webapp to manage your hours of Detran driving course
 
-## Project setup
-```
-yarn install
-```
 
-### Compiles and hot-reloads for development
-```
-yarn run serve
-```
 
-### Compiles and minifies for production
+### Test Horas Detran
+You can test Horas Detran [here](https://horasdetran.netlify.app/) with the credentials:
 ```
-yarn run build
+Email: test@mail.com
+Password: password
 ```
-
-### Run your tests
-```
-yarn run test
-```
-
-### Lints and fixes files
-```
-yarn run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+![HorasDetran screenshot](https://raw.githubusercontent.com/DenysMb/HorasDetran/master/preview.png)
